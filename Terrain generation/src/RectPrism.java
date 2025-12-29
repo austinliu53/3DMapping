@@ -10,9 +10,10 @@ public class RectPrism {
     public double height;
     public double depth;
 
-    public double[] coordinates;
+    public double[] coordinates; 
  
-    public ArrayList<DotMap> screenMap = new ArrayList<DotMap>();
+    public ArrayList<DotMap> screenDotMap = new ArrayList<DotMap>();
+    public ArrayList<int[]> edges = new ArrayList<int[]>();
     public double yRotation; // Rotation around the y-axis in degrees
 
     public RectPrism(double w, double h, double d, double[] c, double yR) {
@@ -25,11 +26,42 @@ public class RectPrism {
 
         yRotation = yR; 
         
-        for (Vertex v : calcVertices()) {
+        for (Vertex vertex : calcVertices()) {
             //System.out.println("RectPrism 26 " + v.coords[0] + " " + v.coords[1] + " " + v.coords[2]);
+            screenDotMap.add(new DotMap(vertex));
+        }
 
-            
-            screenMap.add(new DotMap(v));
+        /*
+        57
+        46 
+
+        13
+        02 close
+        */
+        // Add edges
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 2; j++) {
+                for (int k = 0; k < 2; k++) {
+                    switch (i) {
+                        case 0: // Vertical edges
+                            edges.add(new int[] {2 * (j + (k * 2)), 2 * (j + (k * 2)) + 1}); 
+                            System.out.println((2 * (j + k)) + " " + (2 * (j + k) + 1));
+                            break;
+
+                        case 1: // Left-right edges
+                            edges.add(new int[] {j + (4 * k), j + (4 * k) + 2}); 
+                            System.out.println((j + (4 * k)) + " " + (j + (4 * k) + 2));
+                            break;
+                            
+                        case 2: // Forward-back edges
+                            edges.add(new int[] {j + (k * 2), j + (k * 2) + 4}); 
+                            System.out.println((j + k) + " " + (j + k + 4));
+                            break;
+                    }
+                }
+                
+
+            }
         }
 
         rectPrisms.add(this);
@@ -71,7 +103,7 @@ public class RectPrism {
                 }
             }
         }
-        System.out.println("Vertices calculated: " + vertices.size());
+        //System.out.println("RectPrism 74: Vertices calculated: " + vertices.size());
         return vertices;
     }
 

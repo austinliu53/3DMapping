@@ -59,14 +59,20 @@ public class DotMap { // This is a class that converts 3D points to 2D points ba
         double[] yawPoint = yaw();
         double[] pitchPoint = pitch(yawPoint);
 
-        // if the voxel is behind the rotated camera
-        System.out.println("============================================================");
-        System.out.println("DotMap 82: Pitchedpoint x:" + pitchPoint[0]);
-        System.out.println("DotMap 82: Pitchedpoint y:" + pitchPoint[1]);
-        System.out.println("DotMap 81: Pitchedpoint z:" + pitchPoint[2]);
         
-        if (pitchPoint[2] <= 0) {// Z-distance from the camera
+        //System.out.println("============================================================");
+        //System.out.println("DotMap 82: Pitchedpoint x:" + pitchPoint[0]);
+        //System.out.println("DotMap 82: Pitchedpoint y:" + pitchPoint[1]);
+        //System.out.println("DotMap 81: Pitchedpoint z:" + pitchPoint[2]);
+        
+        // if the voxel is behind the rotated camera
+
+        if (pitchPoint[2] + Math.pow(pitchPoint[0], 2) + Math.pow(pitchPoint[0], 2) <= 8) {// Z-distance from the camera
             return new double[] {Double.NaN, Double.NaN};
+        } 
+
+        if (pitchPoint[2] + Math.pow(pitchPoint[0], 2) + Math.pow(pitchPoint[0], 2) <= 8) {// Z-distance from the camera
+            //return new double[] {Double.NaN, Double.NaN};
         } 
         
         dot[0] = display.screenWidth / 2.0 + projectX(pitchPoint); // Convert it to the screen's coordinates
@@ -118,6 +124,6 @@ public class DotMap { // This is a class that converts 3D points to 2D points ba
 
     public static void setDisplay(Display d) {
         display = d;
-        System.out.println("Hello");
+        
     }
 }
