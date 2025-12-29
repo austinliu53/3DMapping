@@ -29,15 +29,16 @@ public class Display extends JFrame implements KeyListener, ActionListener {
     
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
     private final Dimension screenSize = toolkit.getScreenSize();
-    public final double screenWidth = screenSize.getWidth();
-    public final double screenHeight = screenSize.getHeight();
+    public final int screenWidth = (int)screenSize.getWidth() / 2;
+    public final int screenHeight = (int)screenSize.getHeight();
     private RectPrism rect1;
 
     public Display() {
 
+        DotMap.setDisplay(this);
         DotMap.updateCamera(camera, pitch, yaw, focalLength);
         this.setTitle("3D Display");
-        this.setSize((int) screenWidth, (int) screenHeight);
+        this.setSize(screenWidth, screenHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         rect1 = new RectPrism(4, 4, 4, new double[]{-2, -2, 5}, 0);
@@ -97,7 +98,7 @@ public class Display extends JFrame implements KeyListener, ActionListener {
         DotMap.updateCamera(camera, pitch, yaw, focalLength);
 
         //System.out.println("Display 76 " + rect1.screenMap.get(0).voxelToDot()[0] + " " + rect1.screenMap.get(0).voxelToDot()[1]);
-        System.out.println("Display 77: yaw:" + yaw + " pitch:" + pitch);
+        //System.out.println("Display 77: yaw:" + yaw + " pitch:" + pitch);
     }
 
     public void addRectPrism(RectPrism rp) {
@@ -108,10 +109,10 @@ public class Display extends JFrame implements KeyListener, ActionListener {
 
         g.setColor(Color.WHITE);
 
-        for (DotMap dm : rp.screenMap) {
+        for (DotMap dm : rp.screenMap) { // Drawing them onto the screen
             double[] dot = dm.voxelToDot();
             
-            g.fillOval((int) (dot[0] + screenWidth/2), (int) (dot[1] + screenHeight/2), 5, 5);
+            g.fillOval((int) dot[0], (int) dot[1], 5, 5);
 
             //System.out.println("Display 95 " + (int) (dot[0] + screenWidth/4) + " " + (int) (dot[1] + screenHeight/4));
         }
